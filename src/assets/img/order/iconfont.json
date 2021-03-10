@@ -1,0 +1,16 @@
+{
+  "id": "2262687",
+  "name": "jidong",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "16563691",
+      "name": "订单",
+      "font_class": "cangpeitubiao_dingdan",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    }
+  ]
+}
