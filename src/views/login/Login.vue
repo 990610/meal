@@ -35,7 +35,8 @@
           <input type="password" placeholder="密码" v-model="password">
           <div class="yzstyle">
             <input type="text" placeholder="验证码" style="border:0px;outline:none">
-            <span @click="yzClick">sdfsdf</span>
+            <img @click="yzClick" src="" alt="tubian">
+            <!-- <img src="" alt=""> -->
           </div>
         </div>
       </div>
@@ -50,6 +51,8 @@
 </template>
 <script>
 import AlertTip from '../../components/common/alertTip/AlertTip.vue'
+import {getLoginSendCode} from '../../api/login.js'
+
 export default {
   components: { AlertTip },
   name: 'Login',
@@ -62,10 +65,11 @@ export default {
       // 登录界面与登录警告界面的切换
       enter: true,
       // 传入警告组件的信息
-      errorWay: '手机号码错误',
+      errorWay: '',
       //以下几个都是 v-model双向绑定，可以动态拿到input输入的值保存
       phone: '', //手机号
       code: '', // 短信验证码，
+      // 密码登录没有做
       email:'', // 密码登录手机，邮箱
       password:'', // 密码
       captcha:'' //图形验证码
@@ -78,7 +82,9 @@ export default {
       // return /^1\d{10}$/.test(this.phone)
     },
   },
+ 
   methods: {
+   
     /* 点击相关*/
 
     yzClick() {
@@ -90,35 +96,47 @@ export default {
       this.sign = item
     },
     // 点击获取短信验证码,
-    identifyClick() {
+     identifyClick() {
       // 只有为0时，才能点击。
       if(this.time == 0) {
         this.time = 30;
-        const timer = setInterval(() => {
+        this.timer = setInterval(() => {
           this.time--;
           if(this.time<=0) {
-            clearInterval(timer)
+            clearInterval(this.timer)
           }
         },1000);
         // 发送请求(向指定手机发送验证码短信)
+        getLoginSendCode(this.phone).then(res => {
+          console.log(res)
+        })
+        // const res =  getLoginSendCode(this.phone)
+        // if(res.code == 1){
+        //   // 发送验证码失败
+        //   this.errorWay = res.msg
+        //   if(this.time) {
+        //     this.time = 0
+        //     clearInterval(this.timer)
+        //   }
+        // }
       }
     },
     //点击登录进行前台验证
     enterClick() {
       this.enter = false;
-      if(/^1\d{10}$/.test(this.phone)) {
-        // console.log('手机号正确')
-        if(/\d{6}$/.test(this.code)) {
-          // console.log('验证码正确')
-          return this.errorWay = '登录成功'
-        }else {
-          // console.log('验证码不正确')
-          return this.errorWay = '验证码不正确'
-        }
-      }else{
-        // console.log('手机号不正确')
-        return this.errorWay = '手机号不正确'
-      }
+      // if(/^1\d{10}$/.test(this.phone)) {
+      //   // console.log('手机号正确')
+      //   if(/\d{6}$/.test(this.code)) {
+      //     // console.log('验证码正确')
+      //     return this.errorWay = '登录成功'
+      //   }else {
+      //     // console.log('验证码不正确')
+      //     return this.errorWay = '验证码不正确'
+      //   }
+      // }else{
+      //   // console.log('手机号不正确')
+      //   return this.errorWay = '手机号不正确'
+      // }
     },
     // 监听子组件的点击，返回登录界面
     backClick() {
@@ -185,6 +203,9 @@ export default {
   }
   .yzstyle {
     width: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* border: 1px solid black; */
   }
   .point {

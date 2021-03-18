@@ -1,10 +1,13 @@
 <template>
-  <div class="alert-tip">
-    <div class="fixd"></div>
-    <div class="box">
-      <div class="title">{{title}}</div>
-      <span @click="backClick" class="back">返回</span>
+  <div class="background">
+    <div class="alert-tip">
+      <div class="fixd"></div>
+      <div class="box">
+        <div class="title">{{title}}</div>
+        <span @click="backClick" class="back">返回</span>
+      </div>
     </div>
+   
   </div>
 </template>
 
@@ -72,6 +75,20 @@ export default {
       transform: rotate(360deg);
     }
   }
+  @keyframes scale {
+     0%{
+      transform: scale(0.1)
+     }
+    35%{
+      transform: scale(.5)
+    }
+    70%{
+      transform: scale(.8)
+    }
+    100%{
+      transform: scale(1)
+    }
+  }
   /* 定义缩放 */
   .box {
     font-size: 18px;
@@ -100,9 +117,12 @@ export default {
   .back {
     margin: 10px auto;
   }
+  .background {
+    background-color: #222;
+  }
   .alert-tip {
     height: 100vh;
-    background-color: #222;
+    animation: scale 1.5s linear ;
   }
   
 

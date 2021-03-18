@@ -40,9 +40,11 @@ export default {
     }
   },
   created() {
-    this.getHomeGoods()
   },
   mounted() {
+    this.getHomeGoods()
+    // reqFoodCategorys()
+
     // 使用swiper插件
     new Swiper('.swiper-container', {
       loop: true,
@@ -65,12 +67,13 @@ export default {
     // 网络请求相关
     getHomeGoods() {
       request({
-        url: '/goods'
+        // method: 'get',
+        url: '/index_category'
       }).then(res => {
-        // console.log(res)
-        this.banners = res
+        console.log(res)
+        // this.banners = res
       })
-    }
+    },
   }
 }
 </script>
