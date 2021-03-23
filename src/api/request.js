@@ -12,9 +12,8 @@ export function request(config) {
   // 使用实例
   instance.interceptors.response.use(res => {
     // return res  请求会包含许多其他信息，像status headers等
-    return res
+    return res.data
   })
-  
   return instance(config)
 }
 

@@ -4,7 +4,7 @@
       <div class="fixd"></div>
       <div class="box">
         <div class="title">{{title}}</div>
-        <span @click="backClick" class="back">返回</span>
+        <span @click="backClick" class="back">返回{{this.time>=0 ? '('+this.time+')' :''}}</span>
       </div>
     </div>
    
@@ -20,7 +20,30 @@ export default {
       default: '登录成功'
     }
   },
+  data() {
+    return {
+      time: 5
+    }
+  },
+  mounted() {
+    this.autoBack()
+  },
+  computed: {
+   
+  },
   methods: {
+    // 自动返回login页面
+    autoBack() {
+      this.time = 5
+      const timer = setInterval(() => {
+        this.time--
+        if(this.time <= 0) {
+          clearInterval(timer)
+          this.backClick()
+        }
+      },1000)
+    },
+    // 点击返回login页面
     backClick() {
       this.$emit('backClick')
     }

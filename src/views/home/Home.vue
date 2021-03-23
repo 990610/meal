@@ -3,7 +3,7 @@
     <!-- 首页头部 -->
     <nav-bar class="home-nav">
       <div slot="left" class="iconfont">&#xe60d;</div>
-      <div slot="center" class="center">重庆市南岸区重庆邮电大学</div>
+      <div slot="center" class="center" @click="adderssClick">重庆市南岸区重庆邮电大学</div>
       <div @click="orderClick" slot="right">登录|注册</div>
     </nav-bar>
 
@@ -31,17 +31,20 @@ import Swiper from 'swiper'
 import '../../../node_modules/swiper/swiper-bundle'
 import 'swiper/swiper-bundle.min.css'
 import {request} from '../../api/request'
+import {getAddress} from '../../api/login'
 export default {
   components: { NavBar },
   name: 'Home',
   data(){
     return{
-      banners:[]
+      banners:[],
+      geohash: '/40.10038,116.36867'
     }
   },
   created() {
   },
   mounted() {
+
     this.getHomeGoods()
     // reqFoodCategorys()
 
@@ -62,6 +65,7 @@ export default {
   methods: {
     // 点击相关
     orderClick() {
+      // 点击登录注册
       this.$router.push('./Login')
     },
     // 网络请求相关
@@ -74,6 +78,12 @@ export default {
         // this.banners = res
       })
     },
+    adderssClick() {
+      this.$store.dispatch('reqAddress')
+      // getAddress(this.geohash).then(res => {
+      //   console.log(res)
+      // })
+    }
   }
 }
 </script>
