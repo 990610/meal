@@ -3,7 +3,7 @@
     <!-- 首页头部 -->
     <nav-bar class="home-nav">
       <div slot="left" class="iconfont">&#xe60d;</div>
-      <div slot="center" class="center" @click="adderssClick">重庆市南岸区重庆邮电大学</div>
+      <div slot="center" class="center">{{address}}</div>
       <div @click="orderClick" slot="right">登录|注册</div>
     </nav-bar>
 
@@ -18,6 +18,7 @@
         <div class="swiper-pagination"></div>
       </div>
     </div>
+    
 
     <!-- 附近商家 -->
     <div class="shop-list">
@@ -27,26 +28,29 @@
 
 <script>
 import NavBar from '../../components/common/navBar/NavBar.vue'
+
+import {mapState} from 'vuex'
+// 轮播相关
 import Swiper from 'swiper'
 import '../../../node_modules/swiper/swiper-bundle'
 import 'swiper/swiper-bundle.min.css'
-import {request} from '../../api/request'
-import {getAddress} from '../../api/login'
 export default {
   components: { NavBar },
   name: 'Home',
   data(){
     return{
       banners:[],
-      geohash: '/40.10038,116.36867'
     }
   },
   created() {
+    
   },
   mounted() {
+    // 页面挂载后就获取商品分类数据和地址，这个数据是全局管理
+    this.$store.dispatch('reqCategorys')
+    this.$store.dispatch('reqAddress')
 
-    this.getHomeGoods()
-    // reqFoodCategorys()
+
 
     // 使用swiper插件
     new Swiper('.swiper-container', {
@@ -62,28 +66,17 @@ export default {
     })
     
   },
+  computed: {
+    ...mapState(['address']),
+  },
   methods: {
+
+    
     // 点击相关
     orderClick() {
       // 点击登录注册
       this.$router.push('./Login')
     },
-    // 网络请求相关
-    getHomeGoods() {
-      request({
-        // method: 'get',
-        url: '/index_category'
-      }).then(res => {
-        console.log(res)
-        // this.banners = res
-      })
-    },
-    adderssClick() {
-      this.$store.dispatch('reqAddress')
-      // getAddress(this.geohash).then(res => {
-      //   console.log(res)
-      // })
-    }
   }
 }
 </script>

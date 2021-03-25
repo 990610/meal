@@ -13,7 +13,7 @@ export function getLoginSendCode(phone) {
     }
   })
 }
-
+// 获取地址
 export function getAddress(geohash) {
   return request({
     // 参考接口文档可知，此处不是传递参数，而是直接拼接字符串成url
@@ -22,5 +22,10 @@ export function getAddress(geohash) {
     // method: 'get',
   })
 }
-
+// 获取商品分类
+export function getCategorys() {
+  return request({
+    url: '/index_category'
+  })
+}
 
