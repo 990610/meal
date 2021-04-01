@@ -11,8 +11,9 @@
     <div class="home-swiper">
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide"><img src="../../assets/img/swiper1.png" alt=""></div>
-          <div class="swiper-slide"><img src="../../assets/img/swiper2.png" alt=""></div>
+          <div class="swiper-slide" v-for="(items, index) in categorysArr" :key="index">
+            <img :src="baseImageUrl + item.image_url" alt="图片" v-for="(item, index) in items" :key="index">
+            </div>
         </div>
         <!-- 分页器 -->
         <div class="swiper-pagination"></div>
@@ -39,7 +40,8 @@ export default {
   name: 'Home',
   data(){
     return{
-      banners:[],
+      baseImageUrl: 'https://fuss10.elemecdn.com'
+
     }
   },
   created() {
@@ -49,8 +51,6 @@ export default {
     // 页面挂载后就获取商品分类数据和地址，这个数据是全局管理
     this.$store.dispatch('reqCategorys')
     this.$store.dispatch('reqAddress')
-
-
 
     // 使用swiper插件
     new Swiper('.swiper-container', {
@@ -67,15 +67,40 @@ export default {
     
   },
   computed: {
-    ...mapState(['address']),
+   /*  mapState放在computed里面
+    mapAction放在methods里面 */
+    ...mapState(['address','categorys']),
+
+    // 拿到分类数据，使之成为二维数组
+    categorysArr() {
+      const {categorys} = this
+      // 准备空的二维数组
+      const arr = []
+      // 准备小的数组(最大长度为8)
+      let minArr = []
+      categorys.forEach(item => {
+        if(minArr.length === 8) {
+          minArr = []
+        }
+        // 如果小数组是空的，将小数组保存到大数组中
+        if(minArr.length === 0) {
+          arr.push(minArr)
+        }
+        // 将当前分类保存到小数组中
+        minArr.push(item)
+      })
+      return arr
+    }
+
   },
   methods: {
 
-    
     // 点击相关
     orderClick() {
       // 点击登录注册
       this.$router.push('./Login')
+      // console.log(this.categorys.length)
+
     },
   }
 }

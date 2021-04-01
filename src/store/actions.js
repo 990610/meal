@@ -21,7 +21,7 @@ export default {
     // 发送网络请求
     getCategorys().then(res => {
       console.log(res)
-      const category = res
+      const category = res.data
       commit(RECEIVE_CATEGORYS, {category})
     })
   }
